@@ -6,8 +6,8 @@ import shutil
 import os
 
 
-from smipmic.core.config import ApplicationConfig
-from smipmic.core.errors import CommandError, MessageParsingError, ApplicationExit
+from smipmic.core.config import ApplicationConfig, ApplicationArguments
+from smipmic.core.errors import CommandError, MessageParsingError, ApplicationExit, InvalidArgumentError
 from smipmic.collector import message
 from smipmic.metrics.psu import PsuMetricRegistry
 from smipmic.util import command
@@ -42,12 +42,25 @@ class PsuCollector(object):
 
     def __init__(self):
         LOG.info('PSU collector is starting...')
+        self._check_invalid_args()
         self._instances = dict()
         self._buffer_remainder = ''
         self._process = command.BackgroundProcess(self.CMD)
         self._process.init()
         self._collector_thread = threading.Thread(target=self._collect_interval)
         self._collector_thread.start()
+
+    def _check_invalid_args(self):
+        # Workaround in order to both accept args to be set via CLI arguments and envvars
+        none_values = [ arg.value for arg in (
+            ApplicationArguments.IPMI_USERNAME,
+            ApplicationArguments.IPMI_PASSWORD,
+            ApplicationArguments.IPMI_FQDN
+            ) if getattr(ApplicationConfig, arg.name) is None ]
+
+        if none_values:
+            raise InvalidArgumentError('No argument was provided for `{}`'.format(
+                ', '.join(none_values)))
 
     def _collect_interval(self):
         LOG.debug('Starting PSU shell writer thread')

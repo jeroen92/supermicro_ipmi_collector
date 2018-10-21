@@ -3,7 +3,7 @@
 set -e
 
 IMAGE=megalith/smipmi_collector
-VERSION=0.0.1
+VERSION=0.0.2
 SMCIPMITOOL_VERSION='SMCIPMITool_2.20.0_build.180525_bundleJRE_Linux_x64'
 SMCIPMITOOL_SRC="ftp://ftp.supermicro.com/utility/SMCIPMItool/Linux/$SMCIPMITOOL_VERSION.tar.gz"
 

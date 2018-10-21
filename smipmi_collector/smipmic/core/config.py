@@ -2,6 +2,7 @@ import argparse
 import os
 import enum
 
+
 class ApplicationConfig(argparse.Namespace):
     pass
 
@@ -36,21 +37,18 @@ backend_group.add_argument(ApplicationArguments.IPMI_FQDN.value,
                     action='store',
                     help="The hostname or IP address of the IPMI interface",
                     dest=ApplicationArguments.IPMI_FQDN.name,
-                    required=True,
                     default=os.getenv(ApplicationArguments.IPMI_FQDN.name, None))
 
 backend_group.add_argument(ApplicationArguments.IPMI_PASSWORD.value,
                     action='store',
                     help="The password to use for authentication against the IPMI interface",
                     dest=ApplicationArguments.IPMI_PASSWORD.name,
-                    required=True,
                     default=os.getenv(ApplicationArguments.IPMI_PASSWORD.name, None))
 
 backend_group.add_argument(ApplicationArguments.IPMI_USERNAME.value,
                     action='store',
                     help="The username to use for authentication against the IPMI interface",
                     dest=ApplicationArguments.IPMI_USERNAME.name,
-                    required=True,
                     default=os.getenv(ApplicationArguments.IPMI_USERNAME.name, None))
 
 backend_group.add_argument(ApplicationArguments.IPMITOOL_LOCATION.value,

@@ -18,3 +18,6 @@ class MessageHasUnknownInstanceError(SmipmicException):
 
 class ApplicationExit(SmipmicException):
     pass
+
+class InvalidArgumentError(SmipmicException):
+    pass
