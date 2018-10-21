@@ -8,6 +8,7 @@ class ApplicationConfig(argparse.Namespace):
 
 class ApplicationArguments(enum.Enum):
     DEBUG = '--debug'
+    INTERVAL = '--interval'
     IPMI_FQDN = '--ipmi-host'
     IPMI_PASSWORD = '--ipmi-password'
     IPMI_USERNAME = '--ipmi-username'
@@ -30,6 +31,14 @@ core_group.add_argument(ApplicationArguments.DEBUG.value,
                         help='Increase verbosity to debug level',
                         default=False,
                         dest=ApplicationArguments.DEBUG.name)
+
+core_group.add_argument(ApplicationArguments.INTERVAL.value,
+                        action='store',
+                        type=int,
+                        help="The interval in seconds to query for new metrics. Defaults to 60 seconds",
+                        dest=ApplicationArguments.INTERVAL.name,
+                        default=os.getenv(ApplicationArguments.INTERVAL.name, 60))
+
 
 backend_group = parser.add_argument_group('IPMI interface arguments')
 

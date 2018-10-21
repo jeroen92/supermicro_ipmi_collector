@@ -37,7 +37,6 @@ class PsuCollector(object):
             ApplicationConfig.IPMI_USERNAME,
             ApplicationConfig.IPMI_PASSWORD,
             'shell']
-    INTERVAL = 5
     SHELL_VERB = 'pminfo'
 
     def __init__(self):
@@ -67,7 +66,7 @@ class PsuCollector(object):
         while True:
             try:
                 self._process.tell(self.SHELL_VERB)
-                time.sleep(self.INTERVAL)
+                time.sleep(ApplicationConfig.INTERVAL)
             except CommandError as ex:
                 LOG.info('PSU collector process has exited. Aborting collection of PSU metrics')
                 return
@@ -91,7 +90,8 @@ class PsuCollector(object):
         
 
     def run(self):
-        LOG.info('Succesfully started the PSU collector')
+        LOG.info('Succesfully started the PSU collector. Will query every {interval} seconds'.format(
+            interval=ApplicationConfig.INTERVAL))
         while True:
             try:
                 messages = self._get_messages()

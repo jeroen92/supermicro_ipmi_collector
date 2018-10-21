@@ -3,7 +3,7 @@
 set -e
 
 IMAGE=megalith/smipmi_collector
-VERSION=0.0.2
+VERSION=0.0.3
 SMCIPMITOOL_VERSION='SMCIPMITool_2.20.0_build.180525_bundleJRE_Linux_x64'
 SMCIPMITOOL_SRC="ftp://ftp.supermicro.com/utility/SMCIPMItool/Linux/$SMCIPMITOOL_VERSION.tar.gz"
 
@@ -27,5 +27,5 @@ fi;
 docker build . -t ${IMAGE}:${VERSION} --build-arg SMCIPMITOOL_PATH=${SMCIPMITOOL_PATH}
 
 if [ -z "$1" ]; then
-    echo rm -R ${CLEANUP_DIR}
+    rm -R ${CLEANUP_DIR}
 fi;
