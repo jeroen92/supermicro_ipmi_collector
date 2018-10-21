@@ -1,0 +1,2 @@
+class StorageBackend(object):
+    pass

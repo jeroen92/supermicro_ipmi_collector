@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import sys
+
+import smipmic
+
+from smipmic.core import config, logger, errors
+from smipmic.collector import psu
+from smipmic.storage.prometheus import PrometheusStorageBackend
+
+
+def main():
+    try:
+        logger.configure()
+        PrometheusStorageBackend.start()
+        psu_collector = psu.PsuCollector()
+        psu_collector.run()
+    except errors.SmipmicException as ex:
+        logger.log_exception("{}: {}".format(ex.__class__.__name__, str(ex)))
+        logger.log_exception("Exiting")
+        sys.exit(1)
+    except Exception as ex:
+        logger.log_exception("Unknown exception, {}: {}".format(ex.__class__.__name__, str(ex)))
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
